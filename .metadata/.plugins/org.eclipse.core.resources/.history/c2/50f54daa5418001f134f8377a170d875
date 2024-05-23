@@ -1,0 +1,76 @@
+#include "fsm_smart_irrigation.h"
+
+int status = 0;
+
+void fsm_irrigation_init(){
+	//Turn on the first LED
+	status = VALVE1;
+	setTimer(0, 50);
+
+}
+
+void fsm_irrigation_run(){
+	switch(status){
+		case VALVE1:
+			//Turn on the first LED
+			Valve1fertilizeON();
+			if(isTimerExpired(0) == 1){
+				status = VALVE2;
+				setTimer(0, 50);
+				//Turn of the first LED
+				Valve1fertilizeOFF();
+			}
+			break;
+		case VALVE2:
+			//Turn on the second LED
+			//HAL_GPIO_TogglePin(Valve2_GPIO_Port,Valve2_Pin);
+			Valve2fertilizeON();
+			if(isTimerExpired(0) == 1){
+				status = VALVE3;
+				setTimer(0, 50);
+				//Turn of the second LED
+				//HAL_GPIO_TogglePin(Valve2_GPIO_Port,Valve2_Pin);
+				Valve2fertilizeOFF();
+			}
+			break;
+		case VALVE3:
+			//HAL_GPIO_TogglePin(Valve3_GPIO_Port,Valve3_Pin);
+			Valve3fertilizeON();
+			if(isTimerExpired(0) == 1){
+				status = PUMP1;
+				setTimer(0, 50);
+				//HAL_GPIO_TogglePin(Valve3_GPIO_Port,Valve3_Pin);
+				Valve3fertilizeOFF();
+			}
+			break;
+		case PUMP1 :
+			Pump1ON();
+			//HAL_GPIO_TogglePin(Pump1_GPIO_Port,Pump1_Pin);
+			if(isTimerExpired(0) == 1){
+				status = PUMP2;
+				setTimer(0,100);
+				//HAL_GPIO_TogglePin(Pump1_GPIO_Port,Pump1_Pin);
+				Pump1OFF();
+			}
+			break;
+		case PUMP2 :
+			//HAL_GPIO_TogglePin(Pump2_GPIO_Port,Pump2_Pin);
+			Pump2ON();
+			if(isTimerExpired(0) == 1){
+				status = IDLE;
+				setTimer(0,300);
+				//HAL_GPIO_TogglePin(Pump2_GPIO_Port,Pump2_Pin);
+				Pump2OFF();
+			}
+			break;
+		case IDLE :
+			if(isTimerExpired(0) == 1){
+				status = VALVE1;
+				setTimer(0,300);
+			}
+			break;
+		default:
+			break;
+	}
+}
+

@@ -1,0 +1,74 @@
+#include "fsm_smart_irrigation.h"
+
+int status = 0;
+
+void fsm_irrigation_init(){
+	//Turn on the first LED
+	Valve1fertilizeON();
+	status = VALVE1;
+	setTimer(0, 500);
+}
+
+void fsm_irrigation_run(){
+	switch(status){
+		case VALVE1:
+			//Turn on the first LED
+			Valve1fertilizeON();
+			if(isTimerExpired(0) == 1){
+				status = VALVE2;
+				setTimer(0, 500);
+				//Turn of the first LED
+
+				Valve2fertilizeON();
+			}
+			break;
+		case VALVE2:
+			//Turn on the second LED
+			//HAL_GPIO_TogglePin(Valve2_GPIO_Port,Valve2_Pin);
+			Valve2fertilizeON();
+			if(isTimerExpired(0) == 1){
+				status = VALVE3;
+				setTimer(0, 500);
+				//Turn of the second LED
+				//HAL_GPIO_TogglePin(Valve2_GPIO_Port,Valve2_Pin);
+
+				Valve3fertilizeON();
+			}
+			break;
+		case VALVE3:
+			Valve3fertilizeON();
+			if(isTimerExpired(0) == 1){
+				status = PUMP1;
+				setTimer(0, 500);
+
+				Pump1ON();
+			}
+			break;
+		case PUMP1 :
+			Pump1ON();
+			if(isTimerExpired(0) == 1){
+				status = PUMP2;
+				setTimer(0,1000);
+
+				Pump2ON();
+			}
+			break;
+		case PUMP2 :
+			Pump2ON();
+			if(isTimerExpired(0) == 1){
+				status = IDLE;
+				setTimer(0,3000);
+				Pump2OFF();
+			}
+			break;
+		case IDLE :
+			if(isTimerExpired(0) == 1){
+				status = VALVE1;
+				setTimer(0,3000);
+			}
+			break;
+		default:
+			break;
+	}
+}
+

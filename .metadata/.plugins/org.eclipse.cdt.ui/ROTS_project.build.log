@@ -1,0 +1,23 @@
+20:50:52 **** Build of configuration Debug for project ROTS_project ****
+make -j12 all 
+arm-none-eabi-gcc -mcpu=cortex-m3 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32f103c6ux.d" -MT"Startup/startup_stm32f103c6ux.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Startup/startup_stm32f103c6ux.o" "../Startup/startup_stm32f103c6ux.s"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F103C6Ux -DSTM32F1 -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F103C6Ux -DSTM32F1 -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F103C6Ux -DSTM32F1 -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/sysmem.o"
+arm-none-eabi-gcc -o "ROTS_project.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\ADMIN\STM32CubeIDE\workspace_1.7.0\ROTS_project\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ROTS_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ROTS_project.elf
+ 
+arm-none-eabi-size   ROTS_project.elf 
+arm-none-eabi-objdump -h -S  ROTS_project.elf  > "ROTS_project.list"
+arm-none-eabi-objcopy  -O binary  ROTS_project.elf  "ROTS_project.bin"
+   text	   data	    bss	    dec	    hex	filename
+    556	      8	   1568	   2132	    854	ROTS_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: ROTS_project.list
+ 
+Finished building: ROTS_project.bin
+ 
+
+20:50:54 Build Finished. 0 errors, 0 warnings. (took 1s.761ms)
+

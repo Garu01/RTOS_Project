@@ -1,0 +1,10 @@
+20:58:43 **** Incremental Build of configuration Debug for project traffic_light_number ****
+make -j12 all 
+arm-none-eabi-size   traffic_light_number.elf 
+   text	   data	    bss	    dec	    hex	filename
+   6764	     20	   1572	   8356	   20a4	traffic_light_number.elf
+Finished building: default.size.stdout
+ 
+
+20:58:43 Build Finished. 0 errors, 0 warnings. (took 242ms)
+
